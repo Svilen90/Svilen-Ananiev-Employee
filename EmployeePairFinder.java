@@ -44,12 +44,18 @@ public class EmployeePairFinder {
 
         if(sDate1.compareTo(sDate2) > 0){
             if(eDate2.compareTo(sDate1) > 0)
-                return Period.between(sDate1,eDate2);
+                if(eDate1.compareTo(eDate2) < 0)
+                    return Period.between(sDate1,eDate1);
+                else
+                    return Period.between(sDate1,eDate2);
         }
 
         if(sDate1.compareTo(sDate2) < 0){
             if(eDate1.compareTo(sDate2) > 0){
-                return Period.between(sDate2,eDate1);
+                if(eDate1.compareTo(eDate2) > 0)
+                    return Period.between(sDate2,eDate2);
+                else
+                    return Period.between(sDate2,eDate1);
             }
         }
 
@@ -98,7 +104,7 @@ public class EmployeePairFinder {
                     else{
                         p1 = getEmployeeProjectsPeriod(employeePair.get(0), employeePair.get(1));
                         p2 = getEmployeeProjectsPeriod(v.get(i), v.get(j));
-                        if((p1.getYears() * p1.getMonths() * p1.getDays()) < (p2.getYears() * p2.getMonths() * p2.getDays())){
+                        if((((p1.getYears() * 365) + (p1.getMonths() * 12)) + p1.getDays()) < (((p2.getYears() * 365) + (p2.getMonths() * 12)) + p2.getDays())){
                             employeePair.clear();
                             employeePair.add(v.get(i));
                             employeePair.add(v.get(j));
